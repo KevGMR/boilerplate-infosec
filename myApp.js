@@ -2,15 +2,17 @@ const express = require('express');
 const helmet = require('helmet')
 const app = express();
 
+app.use(helmet.xssFilter())
+
 app.use(helmet.hidePoweredBy())
 app.use(helmet.frameguard({ action: "deny" }))
-app.use(helmet.xssFilter())
+
 app.use(helmet.noSniff()) // find out more about this it restricts if Content Type is wrong?
 app.use(helmet.ieNoOpen())
 
 const ninetyDaysInSeconds = 90 * 24 * 60 * 60;
 
-app.use(helmet.hsts({maxAge: ninetyDaysInSeconds, force: true}))
+app.use(helmet.hsts({maxAge: ninetyDaysInSeconds, force: true})) // require https for a set number of days converted to seconds
 
 
 
